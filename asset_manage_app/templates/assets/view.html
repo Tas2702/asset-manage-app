@@ -1,0 +1,52 @@
+{% extends 'standard.html' %}
+
+{% block title %}{{ asset['name'] }} — Asset Manager{% endblock %}
+
+{% block content %}
+<h1>{{ asset['name'] }}</h1>
+
+<table>
+    <tr>
+        <th>Asset Tag</th>
+        <td>{{ asset['asset_tag'] }}</td>
+    </tr>
+    <tr>
+        <th>Category</th>
+        <td>{{ asset['category'] }}</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>{{ asset['status'] }}</td>
+    </tr>
+    <tr>
+        <th>Assigned To</th>
+        <!-- Show username if assigned, otherwise show Unassigned -->
+        <td>{{ asset['assigned_username'] or 'Unassigned' }}</td>
+    </tr>
+    <tr>
+        <th>Purchase Date</th>
+        <td>{{ asset['purchase_date'] or '—' }}</td>
+    </tr>
+    <tr>
+        <th>Warranty Expiry</th>
+        <td>{{ asset['warranty_expiry'] or '—' }}</td>
+    </tr>
+    <tr>
+        <th>Notes</th>
+        <td>{{ asset['notes'] or '—' }}</td>
+    </tr>
+</table>
+
+<div class="action-buttons">
+    <a class="btn-edit" href="{{ url_for('assets.edit', asset_id=asset['asset_id']) }}">Edit</a>
+
+    <!-- Delete is restricted to admins only -->
+    {% if session.get('role') == 'admin' %}
+    <a class="btn-delete" href="#" onclick="if(confirm('Are you sure you want to delete this asset?')) document.getElementById('delete-form').submit(); return false;">Delete</a>
+    <form id="delete-form" method="POST" action="{{ url_for('assets.delete', asset_id=asset['asset_id']) }}"></form>
+    {% endif %}
+</div>
+
+<a href="{{ url_for('assets.index') }}">Back to Assets</a>
+
+{% endblock %}

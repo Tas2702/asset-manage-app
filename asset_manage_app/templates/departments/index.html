@@ -1,0 +1,36 @@
+{% extends 'standard.html' %}
+
+{% block title %}Departments — Asset Manager{% endblock %}
+
+{% block content %}
+<h1>Departments</h1>
+
+{% if session.get('role') == 'admin' %}
+<a href="{{ url_for('departments.add') }}">Add Department</a>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>{{ department['name'] }}</td>
+            <td>{{ department['location'] }}</td>
+            <td>
+                <a href="{{ url_for('departments.view', department_id=department['department_id']) }}">View</a>
+                {% if session.get('role') == 'admin' %}
+                <a href="{{ url_for('departments.edit', department_id=department['department_id']) }}">Edit</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

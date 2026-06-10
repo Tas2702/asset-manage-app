@@ -1,0 +1,78 @@
+{% extends 'standard.html' %}
+
+{% block title %}Add Asset — Asset Manager{% endblock %}
+
+{% block content %}
+<h1>Add Asset</h1>
+
+<form method="POST" action="{{ url_for('assets.add') }}">
+
+    <div>
+        <label for="asset_tag">Asset Tag</label>
+        <input type="text" id="asset_tag" name="asset_tag" required>
+    </div>
+
+    <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+
+    <!-- Dropdown restricted to the categories defined in the database schema -->
+    <div>
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+            <option value="">Select a category</option>
+            <option value="Laptop">Laptop</option>
+            <option value="Desktop">Desktop</option>
+            <option value="Monitor">Monitor</option>
+            <option value="Phone">Phone</option>
+            <option value="Tablet">Tablet</option>
+            <option value="Printer">Printer</option>
+            <option value="Networking">Networking</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+
+    <!-- Dropdown restricted to the statuses defined in the database schema -->
+    <div>
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+            <option value="Available">Available</option>
+            <option value="Assigned">Assigned</option>
+            <option value="Under Repair">Under Repair</option>
+            <option value="Decommissioned">Decommissioned</option>
+        </select>
+    </div>
+
+    <!-- Dropdown populated from the users table -->
+    <div>
+        <label for="assigned_to">Assigned To</label>
+        <select id="assigned_to" name="assigned_to">
+            <option value="">Unassigned</option>
+            {% for user in users %}
+            <option value="{{ user['user_id'] }}">{{ user['username'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        <label for="purchase_date">Purchase Date</label>
+        <input type="date" id="purchase_date" name="purchase_date">
+    </div>
+
+    <div>
+        <label for="warranty_expiry">Warranty Expiry</label>
+        <input type="date" id="warranty_expiry" name="warranty_expiry">
+    </div>
+
+    <div>
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="3"></textarea>
+    </div>
+
+    <button type="submit">Add Asset</button>
+</form>
+
+<a href="{{ url_for('assets.index') }}">Back to Assets</a>
+
+{% endblock %}

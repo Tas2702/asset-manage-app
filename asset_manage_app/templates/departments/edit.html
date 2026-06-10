@@ -1,0 +1,26 @@
+{% extends 'standard.html' %}
+
+{% block title %}Edit {{ department['name'] }} — Asset Manager{% endblock %}
+
+{% block content %}
+<h1>Edit {{ department['name'] }}</h1>
+
+<form method="POST" action="{{ url_for('departments.edit', department_id=department['department_id']) }}">
+
+    <div>
+        <label for="name">Department Name</label>
+        <!-- value= pre-fills the field with the department's current name -->
+        <input type="text" id="name" name="name" value="{{ department['name'] }}" required>
+    </div>
+
+    <div>
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" value="{{ department['location'] }}" required>
+    </div>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<a href="{{ url_for('departments.view', department_id=department['department_id']) }}">Cancel</a>
+
+{% endblock %}

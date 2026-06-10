@@ -1,0 +1,39 @@
+{% extends 'standard.html' %}
+
+{% block title %}Assets — Asset Manager{% endblock %}
+
+{% block content %}
+<h1>Assets</h1>
+
+<a href="{{ url_for('assets.add') }}">Add Asset</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Asset Tag</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Assigned To</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for asset in assets %}
+        <tr>
+            <td>{{ asset['asset_tag'] }}</td>
+            <td>{{ asset['name'] }}</td>
+            <td>{{ asset['category'] }}</td>
+            <td>{{ asset['status'] }}</td>
+            <!-- Show username if assigned, otherwise show a dash -->
+            <td>{{ asset['assigned_username'] or '—' }}</td>
+            <td>
+                <a href="{{ url_for('assets.view', asset_id=asset['asset_id']) }}">View</a>
+                <a href="{{ url_for('assets.edit', asset_id=asset['asset_id']) }}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

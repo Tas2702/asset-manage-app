@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Child templates can override the page title -->
+    <title>{% block title %}Asset Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Only show the navbar if a user is logged in -->
+    {% if session.get('user_id') %}
+    <nav>
+        <a href="{{ url_for('assets.index') }}">Assets</a>
+        <a href="{{ url_for('departments.index') }}">Departments</a>
+        <a href="{{ url_for('users.index') }}">Users</a>
+        <span>Logged in as {{ session.get('username') }}</span>
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+    </nav>
+    {% endif %}
+
+    <main>
+        <!-- Display any flash messages (errors, success notices) at the top of every page -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Child templates inject their content here -->
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

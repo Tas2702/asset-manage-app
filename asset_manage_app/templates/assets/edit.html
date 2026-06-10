@@ -1,0 +1,79 @@
+{% extends 'standard.html' %}
+
+{% block title %}Edit {{ asset['name'] }} — Asset Manager{% endblock %}
+
+{% block content %}
+<h1>Edit {{ asset['name'] }}</h1>
+
+<form method="POST" action="{{ url_for('assets.edit', asset_id=asset['asset_id']) }}">
+
+    <div>
+        <label for="asset_tag">Asset Tag</label>
+        <!-- value= pre-fills the field with the asset's current data -->
+        <input type="text" id="asset_tag" name="asset_tag" value="{{ asset['asset_tag'] }}" required>
+    </div>
+
+    <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ asset['name'] }}" required>
+    </div>
+
+    <!-- selected= highlights the asset's current category in the dropdown -->
+    <div>
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+            <option value="Laptop" {% if asset['category'] == 'Laptop' %}selected{% endif %}>Laptop</option>
+            <option value="Desktop" {% if asset['category'] == 'Desktop' %}selected{% endif %}>Desktop</option>
+            <option value="Monitor" {% if asset['category'] == 'Monitor' %}selected{% endif %}>Monitor</option>
+            <option value="Phone" {% if asset['category'] == 'Phone' %}selected{% endif %}>Phone</option>
+            <option value="Tablet" {% if asset['category'] == 'Tablet' %}selected{% endif %}>Tablet</option>
+            <option value="Printer" {% if asset['category'] == 'Printer' %}selected{% endif %}>Printer</option>
+            <option value="Networking" {% if asset['category'] == 'Networking' %}selected{% endif %}>Networking</option>
+            <option value="Other" {% if asset['category'] == 'Other' %}selected{% endif %}>Other</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+            <option value="Available" {% if asset['status'] == 'Available' %}selected{% endif %}>Available</option>
+            <option value="Assigned" {% if asset['status'] == 'Assigned' %}selected{% endif %}>Assigned</option>
+            <option value="Under Repair" {% if asset['status'] == 'Under Repair' %}selected{% endif %}>Under Repair</option>
+            <option value="Decommissioned" {% if asset['status'] == 'Decommissioned' %}selected{% endif %}>Decommissioned</option>
+        </select>
+    </div>
+
+    <!-- selected= highlights the currently assigned user in the dropdown -->
+    <div>
+        <label for="assigned_to">Assigned To</label>
+        <select id="assigned_to" name="assigned_to">
+            <option value="" {% if not asset['assigned_to'] %}selected{% endif %}>Unassigned</option>
+            {% for user in users %}
+            <option value="{{ user['user_id'] }}" {% if asset['assigned_to'] == user['user_id'] %}selected{% endif %}>
+                {{ user['username'] }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        <label for="purchase_date">Purchase Date</label>
+        <input type="date" id="purchase_date" name="purchase_date" value="{{ asset['purchase_date'] or '' }}">
+    </div>
+
+    <div>
+        <label for="warranty_expiry">Warranty Expiry</label>
+        <input type="date" id="warranty_expiry" name="warranty_expiry" value="{{ asset['warranty_expiry'] or '' }}">
+    </div>
+
+    <div>
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="3">{{ asset['notes'] or '' }}</textarea>
+    </div>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<a href="{{ url_for('assets.view', asset_id=asset['asset_id']) }}">Cancel</a>
+
+{% endblock %}

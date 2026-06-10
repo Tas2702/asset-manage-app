@@ -1,0 +1,50 @@
+{% extends 'standard.html' %}
+
+{% block title %}Add User — Asset Manager{% endblock %}
+
+{% block content %}
+<h1>Add User</h1>
+
+<form method="POST" action="{{ url_for('users.add') }}">
+
+    <div>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+
+    <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+
+    <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+
+    <!-- Dropdown restricted to the two roles defined in the database schema -->
+    <div>
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+    </div>
+
+    <!-- Dropdown populated from the departments table -->
+    <div>
+        <label for="department_id">Department</label>
+        <select id="department_id" name="department_id">
+            <option value="">No Department</option>
+            {% for department in departments %}
+            <option value="{{ department['department_id'] }}">{{ department['name'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit">Add User</button>
+</form>
+
+<a href="{{ url_for('users.index') }}">Back to Users</a>
+
+{% endblock %}

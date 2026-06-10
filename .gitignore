@@ -1,0 +1,7 @@
+# .gitignore
+venv/
+__pycache__/
+*.pyc
+*.db          # Don't push your local database
+.env          # Don't push secret keys
+instance/
