@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: asset-manage-app
+    runtime: python
+    rootDir: asset_manage_app
+    buildCommand: pip install -r ../requirements.txt
+    startCommand: gunicorn "app:create_app()"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true

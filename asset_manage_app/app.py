@@ -1,15 +1,11 @@
+import os
 from flask import Flask, redirect, url_for
 from model import init_db
 
 class Config:
-    # Secret key is used by Flask to securely sign session cookies.
-    # e.g. os.environ.get('SECRET_KEY') for security.
-    SECRET_KEY = 'your-secret-key-change-this-in-production'
- 
-    
-    DEBUG = True
- 
-
+    # Reads SECRET_KEY from environment variable, falls back to default for local dev
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+    DEBUG = os.environ.get('DEBUG', 'false').lower() == 'true'
     DATABASE = 'asset_manage_app.db'
 
 def create_app():
